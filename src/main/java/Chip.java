@@ -9,10 +9,10 @@ public class Chip {
         String greeting = "Hi! I'm Chip. What can I do for you?";
         String exit = "Bye. Hope to see you again soon!";
         System.out.println(greeting);
-
-
         Scanner in = new Scanner(System.in);
-        String input;
+        String input, description;
+        int descriptionStart, descriptionEnd;
+
         do {
             System.out.print("~ ");
             input = in.nextLine();
@@ -49,27 +49,27 @@ public class Chip {
                 }
                 break;
             case "todo":
-                int start = input.indexOf(words[1]);
-                String item = input.substring(start);
-                ToDo toDo = new ToDo(item.trim());
+                descriptionStart = input.indexOf(words[1]);
+                description = input.substring(descriptionStart);
+                ToDo toDo = new ToDo(description.trim());
                 addTask(toDo);
                 break;
             case "deadline":
-                int descriptionStart = input.indexOf(words[1]);
-                int descriptionEnd = input.indexOf("/by");
-                String description = input.substring(descriptionStart, descriptionEnd - 1);
+                descriptionStart = input.indexOf(words[1]);
+                descriptionEnd = input.indexOf("/by");
+                description = input.substring(descriptionStart, descriptionEnd - 1);
                 String by = input.substring(descriptionEnd + 4);
                 Deadline deadline = new Deadline(description.trim(), by.trim());
                 addTask(deadline);
                 break;
             case "event":
-                int descStart = input.indexOf(words[1]);
-                int descEnd = input.indexOf("/from");
-                String desc = input.substring(descStart, descEnd - 1);
+                descriptionStart = input.indexOf(words[1]);
+                descriptionEnd = input.indexOf("/from");
+                description = input.substring(descriptionStart, descriptionEnd - 1);
                 int fromEnd = input.indexOf("/to");
-                String from = input.substring(descEnd + 6, fromEnd);
+                String from = input.substring(descriptionEnd + 6, fromEnd);
                 String to = input.substring(fromEnd + 4);
-                Event event = new Event(desc.trim(), from.trim(), to.trim());
+                Event event = new Event(description.trim(), from.trim(), to.trim());
                 addTask(event);
                 break;
             default:
