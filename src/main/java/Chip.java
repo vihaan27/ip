@@ -1,7 +1,8 @@
 import java.util.Scanner;
 
 public class Chip {
-    public static Task[] tasks = new Task[100];
+    public static final int MAX_TASKS = 100;
+    public static Task[] tasks = new Task[MAX_TASKS];
     public static int taskCount = 0;
 
     public static void main(String[] args) {
@@ -17,14 +18,14 @@ public class Chip {
             input = in.nextLine();
             String[] words = input.split(" ");
 
-            switch (words[0]){
+            switch (words[0]) {
             case "list":
                 printList(tasks, taskCount);
                 break;
             case "bye":
                 break;
             case "mark":
-                if (words.length < 2){
+                if (words.length < 2) {
                     System.out.println("Please enter valid task number.");
                     break;
                 }
@@ -36,7 +37,7 @@ public class Chip {
                 }
                 break;
             case "unmark":
-                if (words.length < 2){
+                if (words.length < 2) {
                     System.out.println("Please enter valid task number.");
                     break;
                 }
@@ -73,13 +74,14 @@ public class Chip {
                 break;
             default:
                 System.out.println("I'm sorry, I didn't understand that :(");
+                break;
             }
         } while (!input.equals("bye"));
 
         System.out.println(exit);
     }
 
-    public static void addTask(Task t){
+    public static void addTask(Task t) {
         tasks[taskCount] = t;
         taskCount++;
         System.out.println("Successfully added item!");
