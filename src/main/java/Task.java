@@ -1,25 +1,33 @@
 public class Task {
-    private String item;
-    private boolean isComplete;
+    private String description;
+    private boolean isDone;
 
-    public Task(String item, boolean isComplete){
-        this.item = item;
-        this.isComplete = isComplete;
+    public Task(String description){
+        this.description = description;
     }
 
-    public String getItem() {
-        return item;
+    public String getStatusIcon() {
+        return (isDone ? "X" : " "); // mark done task with X
     }
 
-    public void setItem(String item) {
-        this.item = item;
+    @Override
+    public String toString() {
+        return "[" + getStatusIcon() + "] " + description;
     }
 
-    public boolean isComplete() {
-        return isComplete;
+    public String getDescription() {
+        return description;
     }
 
-    public void setComplete(boolean complete) {
-        isComplete = complete;
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public boolean isDone() {
+        return isDone;
+    }
+
+    public void setDone(boolean done) {
+        isDone = done;
     }
 }
