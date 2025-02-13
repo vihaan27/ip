@@ -7,7 +7,7 @@ public class Chip {
 
     public static void main(String[] args) {
         String greeting = "Hi! I'm Chip. What can I do for you?";
-        String exit = "Bye. Hope to see you again soon!";
+        String exit = "Bye. See you again soon!";
         System.out.println(greeting);
         Scanner in = new Scanner(System.in);
         String input, description;
