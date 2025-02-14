@@ -44,10 +44,17 @@ public class Chip {
 
     public static void addToDo(String input){
         String[] words = input.split(" ");
-        int descriptionStart = input.indexOf(words[1]);
-        String description = input.substring(descriptionStart);
-        ToDo toDo = new ToDo(description.trim());
-        addTask(toDo);
+        try {
+            if (words.length < 2){
+                throw new EmptyDescriptionException();
+            }
+            int descriptionStart = input.indexOf(words[1]);
+            String description = input.substring(descriptionStart);
+            ToDo toDo = new ToDo(description.trim());
+            addTask(toDo);
+        } catch (EmptyDescriptionException e){
+            System.out.println(e.getMessage());
+        }
     }
 
     public static void addEvent(String input){
