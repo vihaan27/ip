@@ -42,22 +42,22 @@ public class Chip {
         System.out.println("Your list contains " + taskCount + " tasks");
     }
 
-    public static void addToDo(String input){
+    public static void addToDo(String input) {
         String[] words = input.split(" ");
         try {
-            if (words.length < 2){
+            if (words.length < 2) {
                 throw new EmptyDescriptionException();
             }
             int descriptionStart = input.indexOf(words[1]);
             String description = input.substring(descriptionStart);
             ToDo toDo = new ToDo(description.trim());
             addTask(toDo);
-        } catch (EmptyDescriptionException e){
+        } catch (EmptyDescriptionException e) {
             System.out.println(e.getMessage());
         }
     }
 
-    public static void addEvent(String input){
+    public static void addEvent(String input) {
         String[] words = input.split(" ");
         int descriptionStart = input.indexOf(words[1]);
         int descriptionEnd = input.indexOf("/from");
@@ -69,7 +69,7 @@ public class Chip {
         addTask(event);
     }
 
-    public static void addDeadline(String input){
+    public static void addDeadline(String input) {
         String[] words = input.split(" ");
         int descriptionStart = input.indexOf(words[1]);
         int descriptionEnd = input.indexOf("/by");
@@ -79,31 +79,37 @@ public class Chip {
         addTask(deadline);
     }
 
-    public static void markTask(String input){
+    public static void markTask(String input) {
         String[] words = input.split(" ");
-        if (words.length < 2) {
-            System.out.println("Please enter valid task number.");
-            return;
-        }
-        int taskToMark = Integer.parseInt(words[1]);
-        if (taskToMark > 0 && taskToMark <= taskCount) {
-            tasks[taskToMark - 1].setDone(true);
-        } else {
-            System.out.println("No item found at position " + taskToMark);
+        try {
+            int taskIndex = Integer.parseInt(words[1]);
+            if (taskIndex < 0 || taskIndex > taskCount) {
+                throw new InvalidTaskIndexException(taskIndex);
+            }
+            tasks[taskIndex - 1].setDone(true);
+        } catch (IndexOutOfBoundsException i) {
+            System.out.println("Please enter a task number.");
+        } catch (NumberFormatException n) {
+            System.out.println("Oops! Please enter a valid numerical task number.");
+        } catch (InvalidTaskIndexException e) {
+            System.out.println(e.getMessage());
         }
     }
 
-    public static void unmarkTask(String input){
+    public static void unmarkTask(String input) {
         String[] words = input.split(" ");
-        if (words.length < 2) {
-            System.out.println("Please enter valid task number.");
-            return;
-        }
-        int taskToUnmark = Integer.parseInt(words[1]);
-        if (taskToUnmark > 0 && taskToUnmark <= taskCount) {
-            tasks[taskToUnmark - 1].setDone(false);
-        } else {
-            System.out.println("No item found at position " + taskToUnmark);
+        try {
+            int taskIndex = Integer.parseInt(words[1]);
+            if (taskIndex < 0 || taskIndex > taskCount) {
+                throw new InvalidTaskIndexException(taskIndex);
+            }
+            tasks[taskIndex - 1].setDone(false);
+        } catch (IndexOutOfBoundsException i) {
+            System.out.println("Please enter a task number.");
+        } catch (NumberFormatException n) {
+            System.out.println("Oops! Please enter a valid numerical task number.");
+        } catch (InvalidTaskIndexException e) {
+            System.out.println(e.getMessage());
         }
     }
 
