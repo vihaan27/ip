@@ -10,13 +10,17 @@ public class Chip {
         String exit = "Bye. See you again soon!";
         System.out.println(greeting);
         Scanner in = new Scanner(System.in);
-        String input, description;
-        int descriptionStart, descriptionEnd;
+        String input;
 
         do {
             System.out.print("~ ");
             input = in.nextLine();
-            processInput(input);
+
+            try {
+                processInput(input);
+            } catch (InvalidCommandException e) {
+                System.out.println(e.getMessage());
+            }
 
         } while (!input.equals("bye"));
 
@@ -69,7 +73,7 @@ public class Chip {
     }
 
     public static void markTask(String input){
-        String words[] = input.split(" ");
+        String[] words = input.split(" ");
         if (words.length < 2) {
             System.out.println("Please enter valid task number.");
             return;
@@ -97,11 +101,8 @@ public class Chip {
     }
 
 
-    public static void processInput(String input){
+    public static void processInput(String input) throws InvalidCommandException {
         String[] words = input.split(" ");
-        String description;
-        int descriptionStart, descriptionEnd;
-
         switch (words[0]) {
         case "list":
             printList(tasks, taskCount);
@@ -124,8 +125,7 @@ public class Chip {
             addEvent(input);
             break;
         default:
-            System.out.println("I'm sorry, I didn't understand that :(");
-            break;
+            throw new InvalidCommandException();
         }
     }
 }
