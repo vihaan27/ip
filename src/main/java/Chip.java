@@ -1,8 +1,9 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Chip {
     public static final int MAX_TASKS = 100;
-    public static Task[] tasks = new Task[MAX_TASKS];
+    public static ArrayList<Task> tasks = new ArrayList<>();
     public static int taskCount = 0;
 
     public static void main(String[] args) {
@@ -27,18 +28,18 @@ public class Chip {
         System.out.println(exit);
     }
 
-    public static void printList(Task[] tasks, int taskCount) {
+    public static void printList(ArrayList<Task> tasks, int taskCount) {
         for (int i = 0; i < taskCount; i++) {
-            System.out.println((i + 1) + ". " + tasks[i].toString());
+            System.out.println((i + 1) + ". " + tasks.get(i).toString());
 
         }
     }
 
     public static void addTask(Task t) {
-        tasks[taskCount] = t;
+        tasks.add(t);
         taskCount++;
         System.out.println("Successfully added item!");
-        System.out.println(tasks[taskCount - 1].toString());
+        System.out.println(tasks.get(taskCount - 1).toString());
         System.out.println("Your list contains " + taskCount + " tasks");
     }
 
@@ -86,9 +87,9 @@ public class Chip {
             if (taskIndex < 0 || taskIndex > taskCount) {
                 throw new InvalidTaskIndexException(taskIndex);
             }
-            tasks[taskIndex - 1].setDone(true);
+            tasks.get(taskIndex - 1).setDone(true);
         } catch (IndexOutOfBoundsException i) {
-            System.out.println("Please enter a task number.");
+            System.out.println("Please enter a valid task number.");
         } catch (NumberFormatException n) {
             System.out.println("Oops! Please enter a valid numerical task number.");
         } catch (InvalidTaskIndexException e) {
@@ -103,9 +104,9 @@ public class Chip {
             if (taskIndex < 0 || taskIndex > taskCount) {
                 throw new InvalidTaskIndexException(taskIndex);
             }
-            tasks[taskIndex - 1].setDone(false);
+            tasks.get(taskIndex - 1).setDone(false);
         } catch (IndexOutOfBoundsException i) {
-            System.out.println("Please enter a task number.");
+            System.out.println("Please enter a valid task number.");
         } catch (NumberFormatException n) {
             System.out.println("Oops! Please enter a valid numerical task number.");
         } catch (InvalidTaskIndexException e) {
