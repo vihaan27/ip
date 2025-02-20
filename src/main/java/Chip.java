@@ -43,6 +43,28 @@ public class Chip {
         System.out.println("Your list contains " + taskCount + " tasks");
     }
 
+    public static void deleteTask(String input) {
+        String[] words = input.split(" ");
+        try {
+            int taskIndex = Integer.parseInt(words[1]);
+            if (taskIndex < 0 || taskIndex > taskCount) {
+                throw new InvalidTaskIndexException(taskIndex);
+            }
+            String taskString = tasks.get(taskIndex - 1).toString();
+            tasks.remove(taskIndex - 1);
+            taskCount--;
+            System.out.println("Alright! I've deleted the task: ");
+            System.out.println("    " + taskString);
+            System.out.println("Your list now contains " + taskCount + " tasks.");
+        } catch (IndexOutOfBoundsException i) {
+            System.out.println("Please enter a valid task number.");
+        } catch (NumberFormatException n) {
+            System.out.println("Oops! Please enter a valid numerical task number.");
+        } catch (InvalidTaskIndexException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
     public static void addToDo(String input) {
         String[] words = input.split(" ");
         try {
@@ -137,6 +159,9 @@ public class Chip {
             break;
         case "event":
             addEvent(input);
+            break;
+        case "delete":
+            deleteTask(input);
             break;
         default:
             throw new InvalidCommandException();
