@@ -1,14 +1,23 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Chip {
     public static final int MAX_TASKS = 100;
+    public static final String DIRECTORY = "data";
+    public static final String FILE_PATH = "data/chip.txt";
     public static Task[] tasks = new Task[MAX_TASKS];
     public static int taskCount = 0;
 
     public static void main(String[] args) {
         String greeting = "Hi! I'm Chip. What can I do for you?";
         String exit = "Bye. See you again soon!";
+
         System.out.println(greeting);
+        loadSavedTasks();
+
         Scanner in = new Scanner(System.in);
         String input;
 
@@ -27,6 +36,81 @@ public class Chip {
         System.out.println(exit);
     }
 
+    public static void loadSavedTasks() {
+        File file = new File(FILE_PATH);
+        if (!file.exists()) {
+            System.out.println("No saved tasks found.");
+            return;
+        }
+
+        try {
+            Scanner s = new Scanner(file);
+            while (s.hasNext()) {
+                addSavedTask(s.nextLine());
+            }
+        } catch (FileNotFoundException f) {
+            System.out.println("No saved tasks found.");
+        }
+    }
+
+    public static void addSavedTask(String taskString) {
+        String[] details = taskString.split("\\|");
+        Task taskToAdd;
+        switch (details[0]) {
+        case "T":
+            taskToAdd = new ToDo(details[2]);
+            break;
+        case "E":
+            taskToAdd = new Event(details[2], details[3], details[4]);
+            break;
+        case "D":
+            taskToAdd = new Deadline(details[2], details[3]);
+        default:
+            taskToAdd = null;
+            System.out.println("Invalid task");
+            return;
+        }
+        if (details[1].equals("1")) {
+            taskToAdd.setDone(true);
+        }
+        tasks[taskCount] = taskToAdd;
+        taskCount++;
+    }
+
+    public static void saveTaskToFile(Task t) {
+        try {
+            ensureFileExists();
+            appendToFile(FILE_PATH, t.toSaveFormat());
+        } catch (IOException e) {
+            System.out.println("Failed to save task to file");
+            return;
+        }
+    }
+
+    private static void ensureFileExists() throws IOException {
+        File dir = new File(DIRECTORY);
+        if (!dir.exists()) {
+            if (!dir.mkdir()) {
+                System.out.println("Failed to create directory");
+                return;
+            } // Create directory if it doesn't exist
+        }
+
+        File file = new File(FILE_PATH);
+        if (!file.exists()) {
+            if (!file.createNewFile()) {
+                System.out.println("Failed to create file");
+                return;
+            } // Create file if it doesn't exist
+        }
+    }
+
+    public static void appendToFile(String file_path, String text) throws IOException {
+        FileWriter fw = new FileWriter(file_path, true);
+        fw.write(text + System.lineSeparator());
+        fw.close();
+    }
+
     public static void printList(Task[] tasks, int taskCount) {
         for (int i = 0; i < taskCount; i++) {
             System.out.println((i + 1) + ". " + tasks[i].toString());
@@ -37,6 +121,7 @@ public class Chip {
     public static void addTask(Task t) {
         tasks[taskCount] = t;
         taskCount++;
+        saveTaskToFile(t);
         System.out.println("Successfully added item!");
         System.out.println(tasks[taskCount - 1].toString());
         System.out.println("Your list contains " + taskCount + " tasks");
