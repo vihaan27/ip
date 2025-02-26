@@ -143,7 +143,7 @@ public class Chip {
             taskCount--;
             saveTasksToFile();
             System.out.println("Alright! I've deleted the task: ");
-            System.out.println("    " + taskString);
+            System.out.println("-> " + taskString);
             System.out.println("Your list now contains " + taskCount + " tasks.");
         } catch (IndexOutOfBoundsException i) {
             System.out.println("Please enter a valid task number.");
@@ -232,6 +232,8 @@ public class Chip {
             }
             tasks.get(taskIndex - 1).setDone(true);
             saveTasksToFile();
+            System.out.println("Alright! I've marked task number " + taskIndex + ":");
+            System.out.println("-> " + tasks.get(taskIndex - 1).toString());
         } catch (IndexOutOfBoundsException i) {
             System.out.println("Please enter a valid task number.");
         } catch (NumberFormatException n) {
@@ -250,6 +252,8 @@ public class Chip {
             }
             tasks.get(taskIndex - 1).setDone(false);
             saveTasksToFile();
+            System.out.println("Alright! I've unmarked task number " + taskIndex + ":");
+            System.out.println("-> " + tasks.get(taskIndex - 1).toString());
         } catch (IndexOutOfBoundsException i) {
             System.out.println("Please enter a valid task number.");
         } catch (NumberFormatException n) {
