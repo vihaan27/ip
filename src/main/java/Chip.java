@@ -36,8 +36,13 @@ public class Chip {
 
         System.out.println(exit);
     }
-    
+
     public static void printList(ArrayList<Task> tasks, int taskCount) {
+        if (taskCount == 0){
+            System.out.println("No tasks added yet.");
+            return;
+        }
+
         for (int i = 0; i < taskCount; i++) {
             System.out.println((i + 1) + ". " + tasks.get(i).toString());
 
@@ -73,6 +78,7 @@ public class Chip {
             break;
         case "D":
             taskToAdd = new Deadline(details[2], details[3]);
+            break;
         default:
             taskToAdd = null;
             System.out.println("Invalid task");
@@ -91,7 +97,6 @@ public class Chip {
             appendToFile(FILE_PATH, t.toSaveFormat());
         } catch (IOException e) {
             System.out.println("Failed to save task to file");
-            return;
         }
     }
 
@@ -167,25 +172,57 @@ public class Chip {
     }
 
     public static void addEvent(String input) {
-        String[] words = input.split(" ");
-        int descriptionStart = input.indexOf(words[1]);
-        int descriptionEnd = input.indexOf("/from");
-        String description = input.substring(descriptionStart, descriptionEnd - 1);
-        int fromEnd = input.indexOf("/to");
-        String from = input.substring(descriptionEnd + 6, fromEnd);
-        String to = input.substring(fromEnd + 4);
-        Event event = new Event(description.trim(), from.trim(), to.trim());
-        addTask(event);
+        try {
+            if (input.trim().equals("event")){
+                throw new EmptyDescriptionException();
+            }
+
+            String[] details = input.substring(5).split("/");
+            if (details.length < 3 || details[0].trim().isEmpty() || details[1].trim().isEmpty() || details[2].trim().isEmpty()){
+                throw new InvalidTaskFormatException();
+            }
+
+            String description = details[0];
+            int fromIndex = details[1].indexOf("from");
+            int toIndex = details[2].indexOf("to");
+            if (fromIndex == -1 || toIndex == -1){
+                throw new InvalidTaskFormatException();
+            }
+            String from = details[1].substring(fromIndex + 4);
+            String to = details[2].substring(toIndex + 2);
+
+            if (from.trim().isEmpty() || to.trim().isEmpty()){
+                throw new InvalidTaskFormatException();
+            }
+
+            Event event = new Event(description.trim(), from.trim(), to.trim());
+            addTask(event);
+
+        } catch (ChipException e){
+            System.out.println(e.getMessage());
+        }
     }
 
+
+    // add function to update saved file when task deleted or marked/unmarked
     public static void addDeadline(String input) {
-        String[] words = input.split(" ");
-        int descriptionStart = input.indexOf(words[1]);
-        int descriptionEnd = input.indexOf("/by");
-        String description = input.substring(descriptionStart, descriptionEnd - 1);
-        String by = input.substring(descriptionEnd + 4);
-        Deadline deadline = new Deadline(description.trim(), by.trim());
-        addTask(deadline);
+        try {
+            if (input.trim().equals("deadline")){
+                throw new EmptyDescriptionException();
+            }
+
+            String[] details = input.substring(9).split("/by");
+            if (details.length < 2 || details[0].trim().isEmpty() || details[1].trim().isEmpty()){
+               throw new InvalidTaskFormatException();
+            }
+
+            String description = details[0];
+            String by = details[1];
+            Deadline deadline = new Deadline(description.trim(), by.trim());
+            addTask(deadline);
+        } catch (ChipException e){
+            System.out.println(e.getMessage());
+        }
     }
 
     public static void markTask(String input) {
