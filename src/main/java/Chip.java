@@ -91,12 +91,16 @@ public class Chip {
         taskCount++;
     }
 
-    public static void saveTaskToFile(Task t) {
+    public static void saveTasksToFile() {
         try {
             ensureFileExists();
-            appendToFile(FILE_PATH, t.toSaveFormat());
+            FileWriter fw = new FileWriter(FILE_PATH);
+            for (Task task: tasks){
+                fw.write(task.toSaveFormat() + System.lineSeparator());
+            }
+            fw.close();
         } catch (IOException e) {
-            System.out.println("Failed to save task to file");
+            System.out.println("Failed to save tasks to file");
         }
     }
 
@@ -118,17 +122,10 @@ public class Chip {
         }
     }
 
-    public static void appendToFile(String file_path, String text) throws IOException {
-        FileWriter fw = new FileWriter(file_path, true);
-        fw.write(text + System.lineSeparator());
-        fw.close();
-    }
-
-
     public static void addTask(Task t) {
         tasks.add(t);
         taskCount++;
-        saveTaskToFile(t);
+        saveTasksToFile();
         System.out.println("Successfully added item!");
         System.out.println(tasks.get(taskCount - 1).toString());
         System.out.println("Your list contains " + taskCount + " tasks");
@@ -144,6 +141,7 @@ public class Chip {
             String taskString = tasks.get(taskIndex - 1).toString();
             tasks.remove(taskIndex - 1);
             taskCount--;
+            saveTasksToFile();
             System.out.println("Alright! I've deleted the task: ");
             System.out.println("    " + taskString);
             System.out.println("Your list now contains " + taskCount + " tasks.");
@@ -233,6 +231,7 @@ public class Chip {
                 throw new InvalidTaskIndexException(taskIndex);
             }
             tasks.get(taskIndex - 1).setDone(true);
+            saveTasksToFile();
         } catch (IndexOutOfBoundsException i) {
             System.out.println("Please enter a valid task number.");
         } catch (NumberFormatException n) {
@@ -250,6 +249,7 @@ public class Chip {
                 throw new InvalidTaskIndexException(taskIndex);
             }
             tasks.get(taskIndex - 1).setDone(false);
+            saveTasksToFile();
         } catch (IndexOutOfBoundsException i) {
             System.out.println("Please enter a valid task number.");
         } catch (NumberFormatException n) {
