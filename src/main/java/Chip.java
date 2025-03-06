@@ -10,8 +10,8 @@ public class Chip {
 
     public Chip(String filePath, String directory){
         this.ui = new Ui();
-        this.storage = new Storage(filePath, directory);
-        this.taskList = new TaskList(storage);
+        this.storage = new Storage(filePath, directory, ui);
+        this.taskList = new TaskList(storage, ui);
         this.parser = new Parser(taskList);
     }
 
@@ -26,7 +26,7 @@ public class Chip {
             try {
                 parser.processInput(input);
             } catch (InvalidCommandException e) {
-                System.out.println(e.getMessage());
+                ui.printChipExceptionMessage(e);
             }
         } while (!input.equals("bye"));
 

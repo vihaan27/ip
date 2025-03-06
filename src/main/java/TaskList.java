@@ -3,23 +3,21 @@ import java.util.ArrayList;
 public class TaskList {
     private ArrayList<Task> tasks;
     private int taskCount;
-    private Storage storage;
+    private final Storage storage;
+    private final Ui ui;
 
-    public TaskList(Storage storage){
+    public TaskList(Storage storage, Ui ui){
         this.tasks = storage.loadSavedTasks();
         taskCount = tasks.size();
         this.storage = storage;
+        this.ui = ui;
     }
 
     public void printList() {
         if (taskCount == 0){
-            System.out.println("No tasks added yet.");
-            return;
-        }
-
-        for (int i = 0; i < taskCount; i++) {
-            System.out.println((i + 1) + ". " + tasks.get(i).toString());
-
+            ui.printMessage("No tasks added yet.");
+        } else {
+            ui.printList(tasks);
         }
     }
 
@@ -27,32 +25,7 @@ public class TaskList {
         tasks.add(t);
         taskCount++;
         storage.saveTasksToFile(tasks);
-        System.out.println("Successfully added item!");
-        System.out.println(tasks.get(taskCount - 1).toString());
-        System.out.println("Your list contains " + taskCount + " tasks");
-    }
-
-    public void deleteTask(String input) {
-        String[] words = input.split(" ");
-        try {
-            int taskIndex = Integer.parseInt(words[1]);
-            if (taskIndex < 0 || taskIndex > taskCount) {
-                throw new InvalidTaskIndexException(taskIndex);
-            }
-            String taskString = tasks.get(taskIndex - 1).toString();
-            tasks.remove(taskIndex - 1);
-            taskCount--;
-            storage.saveTasksToFile(tasks);
-            System.out.println("Alright! I've deleted the task: ");
-            System.out.println("-> " + taskString);
-            System.out.println("Your list now contains " + taskCount + " tasks.");
-        } catch (IndexOutOfBoundsException i) {
-            System.out.println("Please enter a valid task number.");
-        } catch (NumberFormatException n) {
-            System.out.println("Oops! Please enter a valid numerical task number.");
-        } catch (InvalidTaskIndexException e) {
-            System.out.println(e.getMessage());
-        }
+        ui.confirmTaskAdded(tasks.get(taskCount - 1).toString(), taskCount);
     }
 
     public void addToDo(String input) {
@@ -66,7 +39,7 @@ public class TaskList {
             ToDo toDo = new ToDo(description.trim());
             addTask(toDo);
         } catch (EmptyDescriptionException e) {
-            System.out.println(e.getMessage());
+            ui.printChipExceptionMessage(e);
         }
     }
 
@@ -98,7 +71,7 @@ public class TaskList {
             addTask(event);
 
         } catch (ChipException e){
-            System.out.println(e.getMessage());
+            ui.printChipExceptionMessage(e);
         }
     }
 
@@ -118,7 +91,28 @@ public class TaskList {
             Deadline deadline = new Deadline(description.trim(), by.trim());
             addTask(deadline);
         } catch (ChipException e){
-            System.out.println(e.getMessage());
+            ui.printChipExceptionMessage(e);
+        }
+    }
+
+    public void deleteTask(String input) {
+        String[] words = input.split(" ");
+        try {
+            int taskIndex = Integer.parseInt(words[1]);
+            if (taskIndex < 0 || taskIndex > taskCount) {
+                throw new InvalidTaskIndexException(taskIndex);
+            }
+            String taskString = tasks.get(taskIndex - 1).toString();
+            tasks.remove(taskIndex - 1);
+            taskCount--;
+            storage.saveTasksToFile(tasks);
+            ui.confirmTaskDeleted(taskString, taskCount);
+        } catch (IndexOutOfBoundsException i) {
+            ui.printInvalidIndexMessage();
+        } catch (NumberFormatException n) {
+            ui.printNumberFormatMessage();
+        } catch (InvalidTaskIndexException e) {
+            ui.printChipExceptionMessage(e);
         }
     }
 
@@ -131,14 +125,13 @@ public class TaskList {
             }
             tasks.get(taskIndex - 1).setDone(true);
             storage.saveTasksToFile(tasks);
-            System.out.println("Alright! I've marked task number " + taskIndex + ":");
-            System.out.println("-> " + tasks.get(taskIndex - 1).toString());
+            ui.confirmTaskMarked(tasks.get(taskIndex - 1).toString(), taskIndex);
         } catch (IndexOutOfBoundsException i) {
-            System.out.println("Please enter a valid task number.");
+            ui.printInvalidIndexMessage();
         } catch (NumberFormatException n) {
-            System.out.println("Oops! Please enter a valid numerical task number.");
+            ui.printNumberFormatMessage();
         } catch (InvalidTaskIndexException e) {
-            System.out.println(e.getMessage());
+            ui.printChipExceptionMessage(e);
         }
     }
 
@@ -151,14 +144,13 @@ public class TaskList {
             }
             tasks.get(taskIndex - 1).setDone(false);
             storage.saveTasksToFile(tasks);
-            System.out.println("Alright! I've unmarked task number " + taskIndex + ":");
-            System.out.println("-> " + tasks.get(taskIndex - 1).toString());
+            ui.confirmTaskUnmarked(tasks.get(taskIndex - 1).toString(), taskIndex);
         } catch (IndexOutOfBoundsException i) {
-            System.out.println("Please enter a valid task number.");
+            ui.printInvalidIndexMessage();
         } catch (NumberFormatException n) {
-            System.out.println("Oops! Please enter a valid numerical task number.");
+            ui.printNumberFormatMessage();
         } catch (InvalidTaskIndexException e) {
-            System.out.println(e.getMessage());
+            ui.printChipExceptionMessage(e);
         }
     }
 }

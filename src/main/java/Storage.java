@@ -8,10 +8,12 @@ import java.util.Scanner;
 public class Storage {
     private final String filePath;
     private final String directory;
+    private final Ui ui;
 
-    public Storage(String filePath, String directory) {
+    public Storage(String filePath, String directory, Ui ui) {
         this.filePath = filePath;
         this.directory = directory;
+        this.ui = ui;
     }
 
     public ArrayList<Task> loadSavedTasks() {
@@ -19,7 +21,7 @@ public class Storage {
         ArrayList<Task> tasks = new ArrayList<Task>();
 
         if (!file.exists()) {
-            System.out.println("No saved tasks found.");
+            ui.printMessage("No saved tasks found.");
             return tasks;
         }
 
@@ -29,7 +31,7 @@ public class Storage {
                 tasks = addSavedTask(s.nextLine(), tasks);
             }
         } catch (FileNotFoundException f) {
-            System.out.println("No saved tasks found.");
+            ui.printMessage("No saved tasks found.");
         }
 
         return tasks;
@@ -50,7 +52,7 @@ public class Storage {
             break;
         default:
             taskToAdd = null;
-            System.out.println("Invalid task");
+            ui.printMessage("Invalid task in saved file");
             return tasks;
         }
         if (details[1].equals("1")) {
@@ -69,7 +71,7 @@ public class Storage {
             }
             fw.close();
         } catch (IOException e) {
-            System.out.println("Failed to save tasks to file");
+            ui.printMessage("Failed to save tasks to file");
         }
     }
 
@@ -77,7 +79,7 @@ public class Storage {
         File dir = new File(directory);
         if (!dir.exists()) {
             if (!dir.mkdir()) {
-                System.out.println("Failed to create directory");
+                ui.printMessage("Failed to create directory");
                 return;
             }
         }
@@ -85,7 +87,7 @@ public class Storage {
         File file = new File(filePath);
         if (!file.exists()) {
             if (!file.createNewFile()) {
-                System.out.println("Failed to create file");
+                ui.printMessage("Failed to create file");
                 return;
             }
         }
