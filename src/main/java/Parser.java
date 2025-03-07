@@ -1,3 +1,6 @@
+/**
+ * Interprets user input string and calls required TaskList function handle the input accordingly.
+ */
 public class Parser {
     private final TaskList taskList;
 
@@ -5,6 +8,12 @@ public class Parser {
         this.taskList = taskList;
     }
 
+    /**
+     * Interprets the user input string and calls required taskList function to handle the input accordingly.
+     * Splits user input and calls respective function based on first word of input.
+     * @param input input string from user.
+     * @throws InvalidCommandException
+     */
     public void processInput(String input) throws InvalidCommandException {
         String[] words = input.split(" ");
         switch (words[0]) {

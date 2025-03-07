@@ -5,6 +5,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * Handles writing and reading saved tasks from text file.
+ */
 public class Storage {
     private final String filePath;
     private final String directory;
@@ -16,6 +19,12 @@ public class Storage {
         this.ui = ui;
     }
 
+    /**
+     * Loads saved tasks from text file.
+     * Interprets saved tasks from specified format and instantiates the required task objects.
+     * Adds instantiated tasks to ArrayList to be returned.
+     * @return list of Task objects loaded from file.
+     */
     public ArrayList<Task> loadSavedTasks() {
         File file = new File(filePath);
         ArrayList<Task> tasks = new ArrayList<Task>();
@@ -37,7 +46,13 @@ public class Storage {
         return tasks;
     }
 
-    public ArrayList<Task> addSavedTask(String taskString, ArrayList<Task> tasks) {
+    /**
+     * Interprets saved String format of tasks and accordingly instantiates tasks and adds it to given list.
+     * @param taskString string format of task to interpret and load.
+     * @param tasks list of tasks that new task must be added to.
+     * @return
+     */
+    private ArrayList<Task> addSavedTask(String taskString, ArrayList<Task> tasks) {
         String[] details = taskString.split("\\|");
         Task taskToAdd;
         switch (details[0]) {
@@ -62,6 +77,10 @@ public class Storage {
         return tasks;
     }
 
+    /**
+     * Takes a list of tasks and writes them to text file in the specified String format.
+     * @param tasks list of tasks to be written to file.
+     */
     public void saveTasksToFile(ArrayList<Task> tasks) {
         try {
             ensureFileExists();
@@ -75,6 +94,10 @@ public class Storage {
         }
     }
 
+    /**
+     * Ensures required directory or file exist and creates them if not.
+     * @throws IOException
+     */
     private void ensureFileExists() throws IOException {
         File dir = new File(directory);
         if (!dir.exists()) {
