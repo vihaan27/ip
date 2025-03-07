@@ -27,6 +27,13 @@ public class TaskList {
         }
     }
 
+    /**
+     * Finds all tasks in list containing a user given keyword.
+     * Interprets string input to find keyword.
+     * Prints exception message if keyword is invalid (missing or more than one word).
+     * Prints list of tasks found, prints message if no tasks were found.
+     * @param input string input from user.
+     */
     public void findTasks(String input){
         try {
             String[] details = input.split(" ");
