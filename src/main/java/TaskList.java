@@ -1,5 +1,8 @@
 import java.util.ArrayList;
 
+/**
+ * Stores tasks list and handles adding/deletion and manipulation of tasks.
+ */
 public class TaskList {
     private ArrayList<Task> tasks;
     private int taskCount;
@@ -13,6 +16,9 @@ public class TaskList {
         this.ui = ui;
     }
 
+    /**
+     * Calls printList UI function or prints message if list is empty.
+     */
     public void printList() {
         if (taskCount == 0){
             ui.printMessage("No tasks added yet.");
@@ -48,6 +54,11 @@ public class TaskList {
         }
     }
 
+    /**
+     * Adds task to tasks list, increments task count and calls storage to update saved tasks in file.
+     * Prints confirmation via UI.
+     * @param t Task to be added to list
+     */
     public void addTask(Task t) {
         tasks.add(t);
         taskCount++;
@@ -55,6 +66,12 @@ public class TaskList {
         ui.confirmTaskAdded(tasks.get(taskCount - 1).toString(), taskCount);
     }
 
+    /**
+     * Instantiates toDo object by interpreting string input to find description
+     * Prints exception message if description is empty.
+     * Passes the task to addTask to be saved to list.
+     * @param input String input from user
+     */
     public void addToDo(String input) {
         String[] words = input.split(" ");
         try {
@@ -70,6 +87,12 @@ public class TaskList {
         }
     }
 
+    /**
+     * Instantiates Event object by interpreting user input string to find description, from date and to date.
+     * Prints exception message if required fields are empty or input does not follow the specified format.
+     * Passes the task to addTask to be saved to list.
+     * @param input String input from user
+     */
     public void addEvent(String input) {
         try {
             if (input.trim().equals("event")){
@@ -102,6 +125,12 @@ public class TaskList {
         }
     }
 
+    /**
+     * Instantiates Deadline object by interpreting user input string to find description and by date.
+     * prints exception if required fields are empty or input does not follow the specified format.
+     * Passes the task to addTask to be saved to list.
+     * @param input String input from user
+     */
     public void addDeadline(String input) {
         try {
             if (input.trim().equals("deadline")){
@@ -122,6 +151,13 @@ public class TaskList {
         }
     }
 
+    /**
+     * Deletes a task from the tasks list.
+     * Interprets string input to find task index given by user.
+     * prints exception messages if the index is invalid (not in the list or not numerical).
+     * Prints confirmation via Ui if task is successfully deleted.
+     * @param input String input from user.
+     */
     public void deleteTask(String input) {
         String[] words = input.split(" ");
         try {
@@ -143,6 +179,13 @@ public class TaskList {
         }
     }
 
+    /**
+     * Marks a task as done by a given task index.
+     * Interprets user input string to find task index.
+     * Prints exception message for an invalid index (not in list or not numerical).
+     * Prints confirmation message via Ui if successfully marked.
+     * @param input string user input.
+     */
     public void markTask(String input) {
         String[] words = input.split(" ");
         try {
@@ -162,6 +205,13 @@ public class TaskList {
         }
     }
 
+    /**
+     * Unmarks a task as done by a given task index.
+     * Interprets user input string to find task index.
+     * Prints exception message for an invalid index (not in list or not numerical).
+     * Prints confirmation message via Ui if successfully unmarked.
+     * @param input string user input.
+     */
     public void unmarkTask(String input) {
         String[] words = input.split(" ");
         try {
