@@ -1,6 +1,4 @@
-D|0|quiz|friday
-T|0|abcde
-D|1|smd|t
-E|0|midterm|a|b
-T|0|abc
-T|0|abc def
+T|1|submit assignment
+E|0|family dinner|8 pm|10 pm
+D|0|buy tea|6th may
+T|0|clean teapot
