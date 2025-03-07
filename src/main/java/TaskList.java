@@ -27,10 +27,37 @@ public class TaskList {
         }
     }
 
+    public void findTasks(String input){
+        try {
+            String[] details = input.split(" ");
+            if (details.length != 2) {
+                throw new InvalidKeywordException();
+            }
+
+            String keyword = details[1];
+            ArrayList<Task> foundTasks = new ArrayList<Task>();
+
+            for (Task task : tasks) {
+                if (task.getDescription().contains(keyword)) {
+                    foundTasks.add(task);
+                }
+            }
+
+            if (foundTasks.isEmpty()) {
+                ui.printMessage("Uh oh! No tasks were found containing the given keyword.");
+            } else {
+                ui.printMessage("Here are the matching tasks in your list: ");
+                ui.printList(foundTasks);
+            }
+        } catch (ChipException e){
+            ui.printChipExceptionMessage(e);
+        }
+    }
+
     /**
      * Adds task to tasks list, increments task count and calls storage to update saved tasks in file.
      * Prints confirmation via UI.
-     * @param t
+     * @param t Task to be added to list
      */
     public void addTask(Task t) {
         tasks.add(t);
