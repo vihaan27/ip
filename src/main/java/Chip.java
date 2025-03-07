@@ -15,6 +15,15 @@ public class Chip {
         this.parser = new Parser(taskList);
     }
 
+    /**
+     * Runs the main loop of the program.
+     * <p>
+     *     Prints user greeting and input markers, takes input from scanner and passes it to Parser to process.
+     *     Any invalid commands detected by Parser are handled. The loop runs until the user enters "bye".
+     *     Terminates with an exit message.
+     * </p>
+     *
+     */
     public void run(){
         ui.printGreeting();
         Scanner in = new Scanner(System.in);
