@@ -41,11 +41,11 @@ public class TaskList {
                 throw new InvalidKeywordException();
             }
 
-            String keyword = details[1];
+            String keyword = details[1].toLowerCase();
             ArrayList<Task> foundTasks = new ArrayList<Task>();
 
             for (Task task : tasks) {
-                if (task.getDescription().contains(keyword)) {
+                if (task.getDescription().toLowerCase().contains(keyword)) {
                     foundTasks.add(task);
                 }
             }

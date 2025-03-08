@@ -2,3 +2,4 @@ T|1|submit assignment
 E|0|family dinner|8 pm|10 pm
 D|0|buy tea|6th may
 T|0|clean teapot
+T|0|TEA
