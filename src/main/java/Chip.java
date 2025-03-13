@@ -30,6 +30,7 @@ public class Chip {
         String input;
 
         do {
+            ui.printLineSeparator();
             ui.printInputMarker();
             input = in.nextLine();
             try {

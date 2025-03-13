@@ -43,6 +43,13 @@ public class Ui {
     }
 
     /**
+     * Prints line separator.
+     */
+    public void printLineSeparator(){
+        System.out.println("==========================================================");
+    }
+
+    /**
      * Prints marker to signify that user input is needed.
      */
     public void printInputMarker(){
