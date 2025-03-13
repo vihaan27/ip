@@ -17,7 +17,7 @@ public class TaskList {
     }
 
     /**
-     * Calls printList UI function or prints message if list is empty.
+     * Prints task list or prints message if list is empty.
      */
     public void printList() {
         if (taskCount == 0){
@@ -28,8 +28,7 @@ public class TaskList {
     }
 
     /**
-     * Finds all tasks in list containing a user given keyword.
-     * Interprets string input to find keyword.
+     * Finds all tasks in list containing a keyword given in input.
      * Prints exception message if keyword is invalid (missing or more than one word).
      * Prints list of tasks found, prints message if no tasks were found.
      * @param input string input from user.
@@ -62,8 +61,8 @@ public class TaskList {
     }
 
     /**
-     * Adds task to tasks list, increments task count and calls storage to update saved tasks in file.
-     * Prints confirmation via UI.
+     * Adds task to tasks list and updates saved tasks in file via Storage.
+     * Prints confirmation that task has been added.
      * @param t Task to be added to list
      */
     public void addTask(Task t) {
@@ -74,9 +73,8 @@ public class TaskList {
     }
 
     /**
-     * Instantiates toDo object by interpreting string input to find description
+     * Instantiates and adds to list a toDo object with description given in input.
      * Prints exception message if description is empty.
-     * Passes the task to addTask to be saved to list.
      * @param input String input from user
      */
     public void addToDo(String input) {
@@ -95,9 +93,8 @@ public class TaskList {
     }
 
     /**
-     * Instantiates Event object by interpreting user input string to find description, from date and to date.
+     * Instantiates and adds to list an Event object with given description, from date and to date.
      * Prints exception message if required fields are empty or input does not follow the specified format.
-     * Passes the task to addTask to be saved to list.
      * @param input String input from user
      */
     public void addEvent(String input) {
@@ -133,9 +130,8 @@ public class TaskList {
     }
 
     /**
-     * Instantiates Deadline object by interpreting user input string to find description and by date.
-     * prints exception if required fields are empty or input does not follow the specified format.
-     * Passes the task to addTask to be saved to list.
+     * Instantiates and adds to list a Deadline object with given description and by date.
+     * Prints exception if required fields are empty or input does not follow the specified format.
      * @param input String input from user
      */
     public void addDeadline(String input) {
@@ -159,10 +155,9 @@ public class TaskList {
     }
 
     /**
-     * Deletes a task from the tasks list.
-     * Interprets string input to find task index given by user.
-     * prints exception messages if the index is invalid (not in the list or not numerical).
-     * Prints confirmation via Ui if task is successfully deleted.
+     * Deletes the task at the index given in input from list.
+     * Prints exception messages if the index is invalid (not in the list or not numerical).
+     * Prints confirmation if task is successfully deleted.
      * @param input String input from user.
      */
     public void deleteTask(String input) {
@@ -188,9 +183,8 @@ public class TaskList {
 
     /**
      * Marks a task as done by a given task index.
-     * Interprets user input string to find task index.
      * Prints exception message for an invalid index (not in list or not numerical).
-     * Prints confirmation message via Ui if successfully marked.
+     * Prints confirmation message if successfully marked.
      * @param input string user input.
      */
     public void markTask(String input) {
@@ -214,9 +208,8 @@ public class TaskList {
 
     /**
      * Unmarks a task as done by a given task index.
-     * Interprets user input string to find task index.
      * Prints exception message for an invalid index (not in list or not numerical).
-     * Prints confirmation message via Ui if successfully unmarked.
+     * Prints confirmation message if successfully unmarked.
      * @param input string user input.
      */
     public void unmarkTask(String input) {

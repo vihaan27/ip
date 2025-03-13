@@ -10,7 +10,6 @@ public class Parser {
 
     /**
      * Interprets the user input string and calls required taskList function to handle the input accordingly.
-     * Splits user input and calls respective function based on first word of input.
      * @param input input string from user.
      * @throws InvalidCommandException
      */

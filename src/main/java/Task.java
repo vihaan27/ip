@@ -1,3 +1,6 @@
+/**
+ * Represents a task with a description and completion status.
+ */
 public class Task {
     protected String description;
     protected boolean isDone;
@@ -6,10 +9,18 @@ public class Task {
         this.description = description;
     }
 
+    /**
+     * Returns "X" indicating the task has been marked as done, blank space if not.
+     * @return Text symbol indicating completion status.
+     */
     public String getStatusIcon() {
         return (isDone ? "X" : " "); // mark done task with X
     }
 
+    /**
+     * Returns a formatted String containing all information about the task.
+     * @return String representation of task.
+     */
     @Override
     public String toString() {
         return "[" + getStatusIcon() + "] " + description;
